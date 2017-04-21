@@ -58,9 +58,9 @@ var StackAndQueue = {
     renderChart: function () {
         var str = "";
         chart.innerHTML = "";
-        StackAndQueue.fuck.forEach(function (p1, p2, p3) {
+        StackAndQueue.fuck.forEach(function (p1) {
             str += "<span class=content style='height:" + (p1) + "px; width: 15px;'>" + "</span>";
-        })
+        });
         chart.innerHTML = str;
     },
 
@@ -85,7 +85,7 @@ var StackAndQueue = {
 
     sort: function () {
         var temp;
-
+        //冒泡排序
         var len = StackAndQueue.fuck.length, i, j = 0, delay = 50, timer;
 
         i = len - 1;
