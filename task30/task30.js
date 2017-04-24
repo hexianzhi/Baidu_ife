@@ -118,7 +118,7 @@ var form = {
 function init() {
     var boxes = document.getElementsByClassName("boxes");
 
-    //因为 focus 和 blue 都不冒泡，所有只能一个一个来绑定了
+    //因为 focus 和 blue 都不冒泡，所有只能一个一个来绑定 
     for (var index = 0; index < boxes.length; index++) {
         var box = boxes[index];
 
