@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>javaScript基础练习1</title>
     <style>
-        #left-out {
-            margin-left: 20px;
-        }
 
         #data {
             width: 100%;
@@ -16,28 +13,34 @@
             align-items: flex-end;
 
         }
+
         .content {
+            color: white;
             display: inline-block;
             padding: 5px;
             margin: 10px;
-            background-color: red;
+            background-color: black;
 
+        }
+
+        .search_content {
+            display: inline-block;
+            background-color: red;
         }
     </style>
 </head>
 <body>
 <fieldset id="form">
-    <input id="num-input" type="number">
-    <button id="left-in">左侧入</button>
-    <button id="right-in">右侧入</button>
-    <button id="left-out">左侧出</button>
-    <button id="right-out">右侧出</button>
-    <button id="random">随机生成一组</button>
-    <button id="sort">排序</button>
+    <textarea rows="5" cols="50" id="text" placeholder="请输入内容，使用空格作为分隔符"></textarea>
+
+    <button id="add">插入文本</button>
+    <button id="search">查询文本</button>
+
+    <input id="num-input" type="text">
 </fieldset>
 <div id="data">
 
 </div>
 </body>
-<script src="task19.js"></script>
+<script src="task20.js"></script>
 </html>
