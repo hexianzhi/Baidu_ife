@@ -19,6 +19,7 @@ function radioChange() {
  * 其他人代码均很复杂是因为不清楚这个属性的存在
  */
 function selectDistrict() {
+    
     var data = {
         bj: ["北京大学", "清华大学", "北京航空航天大学"],
         sh: ["复旦大学", "上海交通大学", "同济大学"],
