@@ -15,7 +15,8 @@ function radioChange() {
 }
 
 /**
- * 重要！！可以给 option 设置 value 属性,其他人代码均很复杂也是不清楚这个属性的存在
+ * 重要！！可以给 option 设置 value 属性,
+ * 其他人代码均很复杂是因为不清楚这个属性的存在
  */
 function selectDistrict() {
     var data = {
