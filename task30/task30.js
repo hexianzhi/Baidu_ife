@@ -18,12 +18,17 @@ function addEvent(element, event, listener) {
 var inputs = ["name-input", "password-input", "confirmPas-input", "email-input", "phone-input"];
 
 var form = {
+
+    //判断是否全部信息都符合规范
     isAll: true,
     isNull: true,
     password: {
         isPass: false,
         value: 0
     },
+
+
+    //存储提示信息
     hintText: {
         pass: "格式正确",
         nameNullError: '姓名不能为空',
@@ -35,6 +40,7 @@ var form = {
         notSamePas: "密码不一致"
     },
 
+    //存储提示消息格式
     hintColor: {
         red: "red",
         gray: "gray",
@@ -42,6 +48,12 @@ var form = {
         Error_border: '3px solid red'
     },
 
+    /**
+     * 统一验证
+     * @param inputElement
+     * @param hintElement
+     * @constructor
+     */
     Vetify: function (inputElement, hintElement) {
         var inputValue = inputElement.value;
         form.isNull = false;
@@ -66,6 +78,11 @@ var form = {
     },
 
 
+    /**
+     * 初始化提示信息
+     * @param inputElement
+     * @param hintElement
+     */
     initHint: function (inputElement, hintElement) {
 
         switch (inputElement.id) {
@@ -90,6 +107,11 @@ var form = {
         inputElement.style.border = form.hintColor.gray;
     },
 
+    /**
+     * 根据任务29的规则，获取 input 字符的长度
+     * @param str
+     * @returns {number}
+     */
     countLength: function (str) {
         var inputLength = 0;
         for (var i = 0; i < str.length; i++) {
@@ -105,6 +127,12 @@ var form = {
     },
 
 
+    /**
+     * 验证名字是否符合规范
+     * @param inputElement
+     * @param hintElement
+     * @param inputValue
+     */
     vertifyName: function (inputElement, hintElement, inputValue) {
         if (form.countLength(inputValue) == 0) {
             form.isAll = false;
@@ -125,6 +153,12 @@ var form = {
         }
     },
 
+    /**
+     * 验证密码是否符合规范
+     * @param inputElement
+     * @param hintElement
+     * @param inputValue
+     */
     vertifyPassword: function (inputElement, hintElement, inputValue) {
         if (form.countLength(inputValue) == 0) {
             form.isAll = false;
@@ -148,6 +182,13 @@ var form = {
             inputElement.style.border = form.hintColor.Error_border;
         }
     },
+
+    /**
+     * 确认密码
+     * @param inputElement
+     * @param hintElement
+     * @param inputValue
+     */
     vertifyConfirmPassword: function (inputElement, hintElement, inputValue) {
         if (form.password.isPass && form.password.value == inputValue) {
             form.isAll = true;
@@ -162,6 +203,13 @@ var form = {
             inputElement.style.border = form.hintColor.Error_border;
         }
     },
+
+    /**
+     * 验证邮箱
+     * @param inputElement
+     * @param hintElement
+     * @param inputValue
+     */
     vertifyEmail: function (inputElement, hintElement, inputValue) {
         if ((/(^\w{0,12})(@qq)(\.com$)/).test(inputValue)) {
 
@@ -177,6 +225,13 @@ var form = {
             inputElement.style.border = form.hintColor.Error_border;
         }
     },
+
+    /**
+     * 验证手机号码
+     * @param inputElement
+     * @param hintElement
+     * @param inputValue
+     */
     vertifyPhone: function (inputElement, hintElement, inputValue) {
         if ((/^\d{9,9}$/).test(inputValue)) {
 
@@ -191,6 +246,10 @@ var form = {
             inputElement.style.border = form.hintColor.Error_border;
         }
     },
+
+    /**
+     * 提交前进行全部信息的验证
+     */
     vartifyAll: function () {
         if (form.isAll && !form.isNull) {
             alert("提交成功");
@@ -205,13 +264,18 @@ var form = {
 function init() {
     var boxes = document.getElementsByClassName("boxes");
 
-    //因为 focus 和 blue 都不冒泡，所有只能一个一个来绑定
+    /**
+     * 因为 focus 和 blue 都不冒泡，所有只能一个一个来绑定
+     * 做法是遍历五个输入框中的 children 分别给他们设置事件处理程序。
+     */
     for (var index = 0; index < boxes.length; index++) {
-        //用匿名函数解决闭包问题
+
+        /**
+         *用匿名函数解决闭包问题
+         */
         (function (i) {
             var box = boxes[i];
 
-            //遇到闭包问题了，也就是说触发 focus 事件仍然是走这个函数
             addEvent(box.children[1], "focus", function () {
                 form.initHint(box.children[1], box.children[2]);
             });
@@ -220,6 +284,7 @@ function init() {
             });
         }(index));
     }
+
 
     var fuckbtn = document.getElementById("fuckbtn");
     addEvent(fuckbtn, "click", form.vartifyAll);
