@@ -6,8 +6,8 @@
 function Observer(data) {
     //标志
     this.data = data;
-    this.eventBus = new Event();
     this.walk(data);
+    this.eventBus = new Event(data);
 };
 
 var p = Observer.prototype;
@@ -38,17 +38,13 @@ p.convert = function (key, val) {
         enumerable: true,
         configurable: true,
         get: function () {
-            console.log("你访问了：" + key);
-
+            // console.log("你访问了：" + key);
             return val;
         },
         set: function (nVal) {
-
-            console.log('你设置了' + key);
-            console.log('新的' + key + ' = ' + nVal);
+            // console.log('新的' + key + ' = ' + nVal);
 
 
-            _this.eventBus.emit(key, val, nVal);
 
             if (nVal === val) {
                 return;
@@ -63,41 +59,64 @@ p.convert = function (key, val) {
             if (typeof nVal === 'object') {
                 new Observer(val);
             }
+            _this.eventBus.emit(key, val, nVal);
+
         }
     })
 };
 
 
 p.$watch = function (key, callback) {
-    this.eventBus.listen(key, callback);
+
+    // 先对对象第一层数据的绑定，更深一层得写一个属性查找函数
+    if (this.data.hasOwnProperty(key) && typeof this.data[key] === "object") {
+
+        //this：这里就是假设我们调用了 listen 两次， events  应该有变化，但结果是没变化
+        //不关 this什么事，这是因为 nama 有 new Event，而 firstName 没有
+        //所以为 firstName 加上 event；
+        for (var data1 in this.data[key]) {
+            data1.eventBus = new Event();
+            this.eventBus.listen(data1, callback);
+        }
+
+    } else if (this.data.hasOwnProperty(key)) {
+        this.eventBus.listen(key, callback);
+    } else {
+        // console.log(`对应的属性${key} 没有回调函数`);
+    }
+
 };
 
 
 var Event = function () {
     this.events = {};
+    this.parent = this;
 }
 
 Event.prototype.listen = function (attr, callback) {
+    console.log(" this eventBus " + this.events);
+
     if (!this.events[attr]) { // 如果还没有订阅过此类消息，给该类消息创建一个缓存列表
         this.events[attr] = [];
     }
+
     this.events[attr].push(callback); // 订阅的消息添加进消息缓存列表
+    // console.log(" this " +  this);
 
 }
 
 
 //发布消息
-Event.prototype.emit = function (attr,...arg
-)
-{
+Event.prototype.emit = function (attr, ...arg) {
+
+    console.log(" this events " + this.events[attr]);
+
     if (this.events[attr]) {
         this.events[attr].forEach(function (item) {
-            item(...arg
-            )
-            ;
+            item(...arg);
         });
     } else {
-        console.log("对应的 ${attr} 没有回调函数");
+        // console.log('属性没有回调函数');
     }
 }
 
@@ -119,24 +138,24 @@ Event.prototype.remove = function (key, fn) {
     }
 }
 
-
-let app1 = new Observer({
-    name: 'youngwind',
+let app2 = new Observer({
+    name: {
+        firstName: 'shaofeng',
+        lastName: 'liang'
+    },
     age: 25
 });
 
-// 你需要实现 $watch 这个 API
-app1.$watch('age', function (oldVal, newVal) {
-    console.log(`我的年龄变了，原来是: ${oldVal}岁，现在是：${newVal}岁了`)
+app2.$watch('firstName', function (newName) {
+    console.log('我的姓名发生了变化')
+});
+app2.$watch('age', function (newName) {
+    console.log('我的age发生了变化')
 });
 
+app2.data.age = 'hahaha';
 
-app1.$watch('age', function (oldVal, newVal) {
-    console.log(`我的年龄真的变了诶，竟然年轻了${oldVal - newVal}岁`)
-});
-
-app1.data.age = 100; // 输出：'我的年纪变了，现在已经是100岁了'
-
-
-
+app2.data.name.firstName = 'hahaha';
+// 输出：我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。
+// app2.data.name.lastName = 'blablabla';
 
