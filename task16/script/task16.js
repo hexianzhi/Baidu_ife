@@ -83,6 +83,7 @@ function init() {
     var table = document.getElementById("aqi-table");
     var arrBtnDel = table.getElementsByClassName("del-btn");
 
+    //事件委托
     table.addEventListener("click", function (e) {
         if (e.target && e.target.nodeName === "BUTTON") {
             delBtnHandle(e.target);

@@ -44,6 +44,7 @@ function randomBuildData(seed) {
         returnData[datStr] = Math.ceil(Math.random() * seed);
         dat.setDate(dat.getDate() + 1);
     }
+    console.log(returnData);
     return returnData;
 }
 
@@ -172,7 +173,7 @@ function initAqiChartData() {
         for (var item in nowCityData) {
             countSum += nowCityData[item];
             daySum++;
-            if ((new Date(item)).getDay() == 6) {
+            if ((new Date(item)).getDay() === 6) {
                 week++;
                 chartData['第' + week + '周'] = Math.floor(countSum / daySum);
                 countSum = 0;
@@ -184,7 +185,7 @@ function initAqiChartData() {
             chartData['第' + week + '周'] = Math.floor(countSum / daySum);
         }//保证最后一周若不满也能算一周
     }
-    if (pageState.nowGraTime == 'month') {
+    if (pageState.nowGraTime === 'month') {
         chartData = {};
         var countSum = 0, daySum = 0, month = 0;
         for (var item in nowCityData) {

@@ -30,6 +30,7 @@ function selectDistrict() {
     var target = document.getElementById("select2");
     target.innerHTML = "";
     var selected = source.options[source.selectedIndex].value;
+    console.log(source.options);
     for (var i = 0; i < data[selected].length; i++) {
         var opt = document.createElement('option');
         opt.value = data[selected][i];
