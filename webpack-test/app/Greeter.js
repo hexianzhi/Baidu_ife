@@ -1,8 +1,6 @@
 // Greeter.js
-var config = require('../public/config.json');
-
 module.exports = function() {
   var greet = document.createElement('div');
-  greet.textContent = config.greetText;
+  greet.textContent = "Hi there and greetings!";
   return greet;
 };
