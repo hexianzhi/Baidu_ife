@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: [
     // OccurenceOrderPlugin is needed for webpack 1.x only
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: 'temple.html',
       chunks: ['app'],  //设置chunks字段未入口的配置的字段即可
